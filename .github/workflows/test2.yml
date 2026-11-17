@@ -1,0 +1,14 @@
+name: Test Ubuntu Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test en Ubuntu ARM64
+    runs-on: [self-hosted, Linux, ARM64]
+
+    steps:
+      - name: Verificar servidor
+        run: |
+          echo "Job says: Hola mundo"
