@@ -11,5 +11,3 @@ jobs:
       - name: Información del servidor
         run: |
           echo "Runner conectado correctamente"
-          uname -a
-          whoami
