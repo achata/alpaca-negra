@@ -57,7 +57,11 @@ img {
 }
 
 .portrait {
-  --progress: 0;
+  --title-push: 0;
+  --title-opacity: 1;
+  --intro-opacity: 1;
+  --navigation-opacity: 1;
+  --wash-opacity: 1;
   position: relative;
   isolation: isolate;
   block-size: var(--portrait-height);
@@ -66,7 +70,8 @@ img {
 }
 
 .intro.has-motion {
-  min-block-size: calc(var(--portrait-height) + clamp(9rem, 38svh, 24rem));
+  --portrait-height: 100svh;
+  min-block-size: calc(var(--portrait-height) + clamp(36rem, 120svh, 75rem));
 }
 
 .has-motion .portrait {
@@ -87,15 +92,50 @@ img {
   width: max(100%, var(--portrait-height) * 1.5);
   height: auto;
   translate: -50% 0;
-  transform-origin: 47% 30%;
-  transform: translateY(calc(-1.2rem * var(--progress))) scale(calc(1 + 0.28 * var(--progress)));
+}
+
+.portrait-film {
+  display: block;
+  aspect-ratio: 3 / 2;
+  opacity: 0;
+}
+
+.portrait.has-frame .portrait-film {
+  opacity: 1;
+}
+
+.portrait.has-frame .portrait-overlap {
+  opacity: 0;
 }
 
 .portrait-light {
+  opacity: var(--wash-opacity);
   background:
     radial-gradient(ellipse 48% 44% at 0% 100%, #e8ded0 15%, #e8ded0aa 48%, transparent 100%),
     linear-gradient(90deg, #ede1d0e8, #ede1d0a6 14%, #ede1d032 33%, transparent 43% 58%, #e8ded053 75%, #e8ded0c9 100%),
     linear-gradient(180deg, #eee3d5a1, transparent 19%, transparent 82%, #261c14a3 100%);
+}
+
+.greeting, .scene-preview:not(:focus-visible) {
+  opacity: var(--intro-opacity);
+}
+
+.masthead:not(:focus-within), .explore:not(:focus-visible) {
+  opacity: var(--navigation-opacity);
+}
+
+.portrait.is-near .masthead {
+  color: var(--paper);
+}
+
+.portrait.is-near .nav-pill:not(:hover) {
+  color: var(--ink);
+}
+
+.portrait.is-near .scene-preview:not(:focus-visible),
+.portrait.is-close .masthead:not(:focus-within),
+.portrait.is-close .explore:not(:focus-visible) {
+  pointer-events: none;
 }
 
 .masthead {
@@ -167,14 +207,14 @@ img {
   letter-spacing: -0.078em;
   text-transform: uppercase;
   white-space: nowrap;
-  opacity: calc(1 - 0.42 * var(--progress));
+  opacity: var(--title-opacity);
 }
 
 .wordmark span:first-child {
   background: linear-gradient(90deg, #241c17 56%, #704b37 68%, #f4dfc4 82%);
   background-clip: text;
   color: transparent;
-  transform: translateX(calc(-9vw * var(--progress)));
+  transform: translateX(calc(-34vw * var(--title-push)));
 }
 
 .wordmark span:last-child {
@@ -182,12 +222,13 @@ img {
   background-clip: text;
   color: transparent;
   margin-inline-end: 0.055em;
-  transform: translateX(calc(9vw * var(--progress)));
+  transform: translateX(calc(29vw * var(--title-push)));
 }
 
 .portrait-overlap {
   z-index: 2;
   mask-image: radial-gradient(ellipse 8.5% 30% at 50% 36%, #000 32%, transparent 100%);
+  transition: opacity 150ms ease;
 }
 
 .greeting {
@@ -565,9 +606,12 @@ img {
     display: none;
   }
 
-  .has-motion .wordmark span:first-child,
-  .has-motion .wordmark span:last-child {
-    transform: translateX(calc(-5vw * var(--progress)));
+  .wordmark span:first-child {
+    transform: translateX(calc(-70vw * var(--title-push)));
+  }
+
+  .wordmark span:last-child {
+    transform: translateX(calc(76vw * var(--title-push)));
   }
 
   .greeting {
