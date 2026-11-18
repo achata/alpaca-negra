@@ -1,1 +1,112 @@
-Pallqay! Hi!
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11110f">
+    <meta name="description" content="Alpaca Negra. Un retrato artístico y realista entre la luz y la niebla de los Andes.">
+    <title>Pallqay! Hi! — Alpaca Negra</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #11110f;
+        color: #f3ede1;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(100%, 1680px);
+        margin-inline: auto;
+        padding: 48px 32px 32px;
+        text-align: center;
+      }
+
+      .name {
+        margin: 0 0 24px;
+        color: #c3b7a2;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.32em;
+      }
+
+      h1 {
+        margin: 0 0 40px;
+        font-size: clamp(3.5rem, 8.5vw, 8rem);
+        font-weight: 400;
+        letter-spacing: -0.055em;
+        line-height: 1.05;
+        text-wrap: balance;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #1d1d19;
+      }
+
+      figcaption {
+        margin-top: 24px;
+        color: #c3b7a2;
+        font-size: 14px;
+        font-style: italic;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 600px) {
+        main {
+          padding: 36px 16px 24px;
+        }
+
+        .name {
+          margin-bottom: 20px;
+        }
+
+        h1 {
+          margin-bottom: 28px;
+        }
+
+        img {
+          aspect-ratio: 4 / 5;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        figcaption {
+          margin-top: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="name">ALPACA NEGRA</p>
+        <h1>Pallqay! Hi!</h1>
+      </header>
+      <figure>
+        <img
+          src="assets/alpaca-negra.png"
+          alt="Retrato de una alpaca negra de abundante lana, iluminada por el amanecer entre montañas andinas y niebla."
+          width="1536"
+          height="1024"
+          fetchpriority="high"
+        >
+        <figcaption>Entre la luz y la niebla de los Andes.</figcaption>
+      </figure>
+    </main>
+  </body>
+</html>
