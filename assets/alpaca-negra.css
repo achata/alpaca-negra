@@ -53,7 +53,18 @@ img {
 }
 
 .intro {
+  position: relative;
   --portrait-height: max(37rem, 100svh);
+}
+
+.walk-end {
+  position: absolute;
+  bottom: 0;
+  height: 1px;
+}
+
+.intro.has-motion + .andes:not(:target) {
+  display: none;
 }
 
 .portrait {
@@ -71,7 +82,7 @@ img {
 
 .intro.has-motion {
   --portrait-height: 100svh;
-  min-block-size: calc(var(--portrait-height) + clamp(36rem, 120svh, 75rem));
+  min-block-size: calc(var(--portrait-height) + clamp(56rem, 185svh, 118rem));
 }
 
 .has-motion .portrait {
@@ -87,16 +98,15 @@ img {
 
 .camera {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 50%;
-  width: max(100%, var(--portrait-height) * 1.5);
-  height: auto;
-  translate: -50% 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .portrait-film {
   display: block;
-  aspect-ratio: 3 / 2;
   opacity: 0;
 }
 
@@ -111,16 +121,19 @@ img {
 .portrait-light {
   opacity: var(--wash-opacity);
   background:
-    radial-gradient(ellipse 48% 44% at 0% 100%, #e8ded0 15%, #e8ded0aa 48%, transparent 100%),
-    linear-gradient(90deg, #ede1d0e8, #ede1d0a6 14%, #ede1d032 33%, transparent 43% 58%, #e8ded053 75%, #e8ded0c9 100%),
-    linear-gradient(180deg, #eee3d5a1, transparent 19%, transparent 82%, #261c14a3 100%);
+    radial-gradient(ellipse 37% 31% at 0% 100%, #101012be, transparent),
+    linear-gradient(90deg, #f2f1ed6b, transparent 34% 68%, #f2f1ed6b);
 }
 
 .greeting, .scene-preview:not(:focus-visible) {
   opacity: var(--intro-opacity);
 }
 
-.masthead:not(:focus-within), .explore:not(:focus-visible) {
+.explore:not(:focus-visible) {
+  opacity: var(--intro-opacity);
+}
+
+.masthead:not(:focus-within) {
   opacity: var(--navigation-opacity);
 }
 
@@ -132,9 +145,9 @@ img {
   color: var(--ink);
 }
 
-.portrait.is-near .scene-preview:not(:focus-visible),
-.portrait.is-close .masthead:not(:focus-within),
-.portrait.is-close .explore:not(:focus-visible) {
+.portrait.hide-intro .scene-preview:not(:focus-visible),
+.portrait.hide-intro .explore:not(:focus-visible),
+.portrait.is-close .masthead:not(:focus-within) {
   pointer-events: none;
 }
 
@@ -204,7 +217,7 @@ img {
   gap: 0.16em;
   font: 400 clamp(4.6rem, 12.75vw, 20rem) / 0.82 var(--display);
   font-variation-settings: "opsz" 60;
-  letter-spacing: -0.078em;
+  letter-spacing: calc(-0.078em + 0.12em * var(--title-push));
   text-transform: uppercase;
   white-space: nowrap;
   opacity: var(--title-opacity);
@@ -232,6 +245,7 @@ img {
 }
 
 .greeting {
+  color: var(--paper);
   position: absolute;
   z-index: 3;
   inset: auto auto var(--edge) var(--gutter);
@@ -245,7 +259,7 @@ img {
 }
 
 .greeting-title span {
-  color: #714530;
+  color: #ead2ab;
 }
 
 .greeting p + p {
@@ -321,7 +335,7 @@ img {
   z-index: 1;
   translate: 15% -25%;
   border-radius: 49% 49% 0.45rem 0.45rem / 29% 29% 0.45rem 0.45rem;
-  background: url("retrato-andino.webp") 38% 59% / 340% auto;
+  background: url("retrato-andino.webp?v=marcha2") 38% 59% / 340% auto;
 }
 
 .preview-mountains {
@@ -439,15 +453,15 @@ img {
 }
 
 .card-eyes {
-  background-image: url("retrato-andino.webp");
-  background-size: 280% auto;
-  background-position: 46% 30%;
+  background-image: url("iris-electrico.webp");
+  background-size: cover;
+  background-position: center;
 }
 
 .card-fleece {
-  background-image: url("retrato-andino.webp");
-  background-size: 350% auto;
-  background-position: 58% 77%;
+  background-image: url("retrato-andino.webp?v=marcha2");
+  background-size: 430% auto;
+  background-position: 29% 98%;
 }
 
 .card-mountains {
@@ -534,25 +548,14 @@ img {
   object-fit: contain;
 }
 
-.viewer[data-gallery="mirada"] .viewer-photo,
 .viewer[data-gallery="vellon"] .viewer-photo {
   object-fit: cover;
   position: absolute;
   height: auto;
-  width: 230%;
+  width: 340%;
   max-width: none;
-}
-
-.viewer[data-gallery="mirada"] .viewer-photo {
-  left: -57%;
-  top: 55%;
-  translate: 0 -32%;
-}
-
-.viewer[data-gallery="vellon"] .viewer-photo {
-  left: -76%;
-  top: 44%;
-  translate: 0 -70%;
+  left: -72%;
+  bottom: 0;
 }
 
 .viewer figcaption {
@@ -569,15 +572,11 @@ img {
     padding-block: 1.1rem;
   }
 
-  .camera {
-    inset-inline-start: 52%;
-  }
-
   .portrait-light {
     background:
-      linear-gradient(180deg, #eee3d5dc 0%, #eee3d5a6 6%, transparent 16%),
-      radial-gradient(ellipse 95% 27% at 18% 17%, #221914a1, transparent 100%),
-      linear-gradient(0deg, #e8ded0 0%, #e8ded0e8 7%, #e8ded078 23%, transparent 42%);
+      linear-gradient(180deg, #eeefed7a 0%, transparent 10%),
+      radial-gradient(ellipse 85% 19% at 4% 18%, #10111491, transparent),
+      radial-gradient(ellipse 80% 23% at 0% 100%, #0a0b0ce6, transparent);
   }
 
   .wordmark {
