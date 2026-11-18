@@ -3,110 +3,103 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#11110f">
-    <meta name="description" content="Alpaca Negra. Un retrato artístico y realista entre la luz y la niebla de los Andes.">
+    <meta name="theme-color" content="#e8ded0">
+    <meta name="description" content="Alpaca Negra. Un retrato entre la luz y la niebla de los Andes.">
     <title>Pallqay! Hi! — Alpaca Negra</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        background: #11110f;
-        color: #f3ede1;
-        font-family: Georgia, "Times New Roman", serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-      }
-
-      main {
-        width: min(100%, 1680px);
-        margin-inline: auto;
-        padding: 48px 32px 32px;
-        text-align: center;
-      }
-
-      .name {
-        margin: 0 0 24px;
-        color: #c3b7a2;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 11px;
-        font-weight: 400;
-        letter-spacing: 0.32em;
-      }
-
-      h1 {
-        margin: 0 0 40px;
-        font-size: clamp(3.5rem, 8.5vw, 8rem);
-        font-weight: 400;
-        letter-spacing: -0.055em;
-        line-height: 1.05;
-        text-wrap: balance;
-      }
-
-      figure {
-        margin: 0;
-      }
-
-      img {
-        display: block;
-        width: 100%;
-        height: auto;
-        background: #1d1d19;
-      }
-
-      figcaption {
-        margin-top: 24px;
-        color: #c3b7a2;
-        font-size: 14px;
-        font-style: italic;
-        line-height: 1.6;
-      }
-
-      @media (max-width: 600px) {
-        main {
-          padding: 36px 16px 24px;
-        }
-
-        .name {
-          margin-bottom: 20px;
-        }
-
-        h1 {
-          margin-bottom: 28px;
-        }
-
-        img {
-          aspect-ratio: 4 / 5;
-          object-fit: cover;
-          object-position: center;
-        }
-
-        figcaption {
-          margin-top: 20px;
-        }
-      }
-    </style>
+    <link rel="preload" href="assets/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/alpaca-negra.css">
+    <script src="assets/alpaca-negra.js" defer></script>
   </head>
   <body>
     <main>
-      <header>
-        <p class="name">ALPACA NEGRA</p>
-        <h1>Pallqay! Hi!</h1>
-      </header>
-      <figure>
-        <img
-          src="assets/alpaca-negra.png"
-          alt="Retrato de una alpaca negra de abundante lana, iluminada por el amanecer entre montañas andinas y niebla."
-          width="1536"
-          height="1024"
-          fetchpriority="high"
-        >
-        <figcaption>Entre la luz y la niebla de los Andes.</figcaption>
-      </figure>
+      <section class="intro" id="inicio" aria-labelledby="titulo">
+        <div class="portrait">
+          <div class="portrait-scene">
+            <img class="camera" src="assets/retrato-andino.webp" width="1536" height="1024" fetchpriority="high" alt="Una alpaca negra mira de frente entre montañas andinas y niebla iluminada por el amanecer.">
+          </div>
+          <div class="portrait-light" aria-hidden="true"></div>
+
+          <header class="masthead">
+            <a class="signature" href="#inicio" aria-label="Alpaca Negra, inicio">
+              <span class="summits" aria-hidden="true"></span>
+              <span>Alpaca<br>Negra</span>
+            </a>
+            <nav class="main-nav" aria-label="Navegación principal">
+              <a href="#inicio" aria-current="location">Retrato</a>
+              <a class="nav-pill" href="#andes">Los Andes</a>
+            </nav>
+          </header>
+
+          <h1 class="wordmark" id="titulo"><span>Alpaca</span> <span>Negra</span></h1>
+
+          <div class="portrait-scene portrait-overlap" aria-hidden="true">
+            <img class="camera" src="assets/retrato-andino.webp" width="1536" height="1024" alt="">
+            <div class="portrait-light"></div>
+          </div>
+
+          <div class="greeting">
+            <p class="greeting-title">Pallqay! <span lang="en">Hi!</span></p>
+            <p>Un retrato en los Andes.</p>
+          </div>
+
+          <a class="explore" href="#andes">
+            <span>Explorar</span>
+            <span class="explore-rule" aria-hidden="true"></span>
+          </a>
+
+          <a class="scene-preview" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje" aria-label="Ampliar el paisaje andino">
+            <span class="preview-frame preview-texture" aria-hidden="true"></span>
+            <span class="preview-frame preview-mountains" aria-hidden="true"></span>
+            <span class="preview-label">El paisaje <span aria-hidden="true">+</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="andes" id="andes" aria-labelledby="titulo-andes">
+        <img class="andes-photo" src="assets/amanecer-en-los-andes.webp" width="1672" height="941" loading="lazy" alt="La alpaca negra camina sobre una ladera frente a las montañas cubiertas de niebla.">
+
+        <div class="andes-content">
+          <div class="andes-heading">
+            <h2 id="titulo-andes">Entre la luz<br>y la niebla.</h2>
+            <p>El amanecer dibuja el contorno de la alpaca mientras la niebla recorre la cordillera.</p>
+          </div>
+
+          <ul class="gallery" aria-label="Detalles del retrato andino">
+            <li>
+              <a class="gallery-card" href="assets/retrato-andino.webp" data-gallery="mirada">
+                <span class="card-image card-eyes" aria-hidden="true"></span>
+                <span class="card-label">La mirada <span class="card-plus" aria-hidden="true">+</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="gallery-card" href="assets/retrato-andino.webp" data-gallery="vellon">
+                <span class="card-image card-fleece" aria-hidden="true"></span>
+                <span class="card-label">El vellón <span class="card-plus" aria-hidden="true">+</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="gallery-card" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje">
+                <span class="card-image card-mountains" aria-hidden="true"></span>
+                <span class="card-label">La cordillera <span class="card-plus" aria-hidden="true">+</span></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <footer class="site-footer">
+          <a href="#inicio">Volver al retrato</a>
+        </footer>
+      </section>
     </main>
+
+    <dialog class="viewer" id="visor" aria-labelledby="titulo-visor">
+      <form method="dialog">
+        <button class="viewer-close" aria-label="Cerrar imagen" autofocus>Cerrar <span aria-hidden="true">×</span></button>
+      </form>
+      <figure>
+        <div class="viewer-frame"><img class="viewer-photo" alt=""></div>
+        <figcaption id="titulo-visor"></figcaption>
+      </figure>
+    </dialog>
   </body>
 </html>

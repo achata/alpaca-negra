@@ -13,3 +13,11 @@ Lighting/mood: dramatic soft directional dawn light, a subtle warm rim on the da
 Composition/framing: landscape image, alpaca fills approximately 85 percent of the image height, fine-art photographic portrait with cinematic Andean surroundings. Keep both ears completely inside the frame. This image will be displayed very large in a minimal dark web page with the page heading outside the image.
 Constraints: black fleece, one alpaca only, no text, no typography, no logos, no border, no watermark, no accessories, no halter, no saddle, no stylized anatomy, no illustration.
 ```
+
+## Amanecer en los Andes
+
+Generada con la herramienta integrada `image_gen` a partir del retrato original y guardada para la web en `assets/amanecer-en-los-andes.webp`.
+
+```text
+Create a new ultra-wide photorealistic fine-art wildlife establishing photograph for the next scene of the same editorial as the reference. The input portrait is a continuity reference for the recognizable jet-black curly alpaca, the Andean highlands, and the soft antique-gold dawn through mist. Wide landscape composition, as close to 16:9 as possible. Camera pulled far back and now viewing from a side angle, one and only one real black alpaca walking in profile to the right on a sloping highland ridge. Place the entire animal, including all ears, hooves and tail, centered at 65% of image width and 62% of image height, small within the scene, approximately a quarter of image width. Layers of monumental Andean mountains and banks of mist, sheltered warm grey skies, muted old gold coming in from the left, deep brown grays and mostly muted desaturated color. The left upper half stays softly misty as clean negative space and the foreground can darken naturally. Editorial film still, tactile grasses and wool, quiet and atmospheric, avoid fantasy and high saturation. Maintain the existing photographic world, now seen from afar. The output is only the photograph, no text, graphics, logos, humans, accessories or other animals.
+```

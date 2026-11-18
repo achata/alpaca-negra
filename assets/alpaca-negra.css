@@ -1,0 +1,665 @@
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("bodoni-moda.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("dm-sans.woff2") format("woff2");
+  font-weight: 400 650;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color: #241c17;
+  background: #e8ded0;
+  font-family: "DM Sans", Arial, sans-serif;
+  --display: "Bodoni Moda", "Times New Roman", serif;
+  --paper: #f4ede0;
+  --ink: #241c17;
+  --gutter: clamp(1.25rem, 4vw, 5rem);
+  --edge: clamp(1.25rem, 3vw, 3.5rem);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body, h1, h2, p, figure {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #a65c34;
+  outline-offset: 5px;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.intro {
+  --portrait-height: max(37rem, 100svh);
+}
+
+.portrait {
+  --progress: 0;
+  position: relative;
+  isolation: isolate;
+  block-size: var(--portrait-height);
+  overflow: clip;
+  background: #b6a28b;
+}
+
+.intro.has-motion {
+  min-block-size: calc(var(--portrait-height) + clamp(9rem, 38svh, 24rem));
+}
+
+.has-motion .portrait {
+  position: sticky;
+  inset-block-start: 0;
+}
+
+.portrait-scene, .portrait-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.camera {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  width: max(100%, var(--portrait-height) * 1.5);
+  height: auto;
+  translate: -50% 0;
+  transform-origin: 47% 30%;
+  transform: translateY(calc(-1.2rem * var(--progress))) scale(calc(1 + 0.28 * var(--progress)));
+}
+
+.portrait-light {
+  background:
+    radial-gradient(ellipse 48% 44% at 0% 100%, #e8ded0 15%, #e8ded0aa 48%, transparent 100%),
+    linear-gradient(90deg, #ede1d0e8, #ede1d0a6 14%, #ede1d032 33%, transparent 43% 58%, #e8ded053 75%, #e8ded0c9 100%),
+    linear-gradient(180deg, #eee3d5a1, transparent 19%, transparent 82%, #261c14a3 100%);
+}
+
+.masthead {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 auto;
+  padding: 1.45rem var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signature, .main-nav {
+  display: flex;
+  align-items: center;
+}
+
+.signature {
+  gap: 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.03;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.summits {
+  display: block;
+  width: 2.2rem;
+  height: 1.65rem;
+  background: currentColor;
+  clip-path: polygon(0 94%, 35% 33%, 47% 54%, 73% 7%, 100% 94%, 69% 94%, 70% 85%, 88% 85%, 72% 30%, 48% 73%, 35% 52%, 14% 85%, 48% 85%, 52% 94%);
+}
+
+.main-nav {
+  gap: clamp(1rem, 3vw, 2.9rem);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.main-nav [aria-current] {
+  text-decoration: underline;
+  text-underline-offset: 0.45em;
+}
+
+.nav-pill {
+  padding: 0.65em 1.3em;
+  border: 1px solid #f4ede0a1;
+  border-radius: 100vw;
+  background: var(--paper);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.nav-pill:hover {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.wordmark {
+  position: absolute;
+  z-index: 1;
+  inset: 30% var(--gutter) auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.16em;
+  font: 400 clamp(4.6rem, 12.75vw, 20rem) / 0.82 var(--display);
+  font-variation-settings: "opsz" 60;
+  letter-spacing: -0.078em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: calc(1 - 0.42 * var(--progress));
+}
+
+.wordmark span:first-child {
+  background: linear-gradient(90deg, #241c17 56%, #704b37 68%, #f4dfc4 82%);
+  background-clip: text;
+  color: transparent;
+  transform: translateX(calc(-9vw * var(--progress)));
+}
+
+.wordmark span:last-child {
+  background: linear-gradient(90deg, #dfb391, #573526 19%);
+  background-clip: text;
+  color: transparent;
+  margin-inline-end: 0.055em;
+  transform: translateX(calc(9vw * var(--progress)));
+}
+
+.portrait-overlap {
+  z-index: 2;
+  mask-image: radial-gradient(ellipse 8.5% 30% at 50% 36%, #000 32%, transparent 100%);
+}
+
+.greeting {
+  position: absolute;
+  z-index: 3;
+  inset: auto auto var(--edge) var(--gutter);
+  max-inline-size: 40%;
+}
+
+.greeting-title {
+  font: 400 clamp(2.3rem, 5vw, 5.7rem) / 0.95 var(--display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.065em;
+}
+
+.greeting-title span {
+  color: #714530;
+}
+
+.greeting p + p {
+  margin-top: 0.7rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.explore {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  z-index: 3;
+  inset-block-end: calc(var(--edge) + 0.9rem);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  width: clamp(5.65rem, 8.15vw, 8.35rem);
+  aspect-ratio: 1;
+  border: 1px solid #f4ede0;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 650;
+  transition: color 220ms ease, background-color 220ms ease;
+}
+
+.explore::before {
+  content: "";
+  position: absolute;
+  inset: -0.65rem;
+  border: 1px solid #f4ede09e;
+  border-radius: inherit;
+  transition: scale 220ms ease;
+}
+
+.explore:hover {
+  background: #292019;
+  color: var(--paper);
+}
+
+.explore:hover::before {
+  scale: 1.08;
+}
+
+.explore-rule {
+  width: 1.05rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.scene-preview {
+  --preview-size: clamp(4.5rem, 8.2vw, 9rem);
+  display: grid;
+  grid-template-columns: 0.76fr 1fr;
+  position: absolute;
+  z-index: 3;
+  inset: auto var(--gutter) var(--edge) auto;
+  inline-size: calc(var(--preview-size) * 1.76);
+}
+
+.preview-frame {
+  display: block;
+  height: var(--preview-size);
+  border: 1px solid #f4ede0b8;
+  box-shadow: 0 0.3rem 1.25rem #2c211c22;
+  transition: translate 250ms ease;
+}
+
+.preview-texture {
+  z-index: 1;
+  translate: 15% -25%;
+  border-radius: 49% 49% 0.45rem 0.45rem / 29% 29% 0.45rem 0.45rem;
+  background: url("retrato-andino.webp") 38% 59% / 340% auto;
+}
+
+.preview-mountains {
+  border-radius: 0.45rem 0.45rem 49% 49% / 0.45rem 0.45rem 24% 24%;
+  background: url("amanecer-en-los-andes.webp") 64% 72% / auto 145%;
+}
+
+.scene-preview:hover .preview-texture {
+  translate: 15% -33%;
+}
+
+.preview-label {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.15rem 0.45rem 0.15rem 0.7rem;
+  margin-top: 0.55rem;
+  border-radius: 3rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.preview-label span {
+  font-size: 1rem;
+}
+
+.andes {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-block-size: 100svh;
+  overflow: clip;
+  background: #342a23;
+  color: var(--paper);
+}
+
+.andes-photo, .andes::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.andes-photo {
+  object-fit: cover;
+  object-position: 61% center;
+}
+
+.andes::after {
+  content: "";
+  background:
+    linear-gradient(90deg, #23191391, transparent 71%),
+    linear-gradient(0deg, #211914e6 0%, transparent 52%, #2c21176a);
+}
+
+.andes-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(6rem, 18vh, 14rem);
+  padding: clamp(4rem, 10vh, 8rem) var(--gutter) 2rem;
+}
+
+.andes-heading h2 {
+  font: 400 clamp(4.2rem, 10.5vw, 12.5rem) / 0.86 var(--display);
+  font-variation-settings: "opsz" 62;
+  letter-spacing: -0.07em;
+}
+
+.andes-heading p {
+  max-width: 24rem;
+  margin-top: clamp(1.5rem, 2.6vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.25vw, 1.1rem);
+  width: min(100%, 35rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #efe7db;
+  border-radius: 0.8rem 2rem 0.8rem 0.8rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.card-image {
+  display: block;
+  min-block-size: clamp(4rem, 13vw, 9rem);
+  background-repeat: no-repeat;
+  transition: scale 250ms ease;
+}
+
+.gallery-card:hover .card-image {
+  scale: 1.06;
+}
+
+.card-eyes {
+  background-image: url("retrato-andino.webp");
+  background-size: 280% auto;
+  background-position: 46% 30%;
+}
+
+.card-fleece {
+  background-image: url("retrato-andino.webp");
+  background-size: 350% auto;
+  background-position: 58% 77%;
+}
+
+.card-mountains {
+  background-image: url("amanecer-en-los-andes.webp");
+  background-size: cover;
+  background-position: 58% 35%;
+}
+
+.card-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.2rem;
+  min-block-size: 2.8rem;
+  padding: 0.6rem 0.7rem;
+  background: var(--paper);
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.card-plus {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.site-footer {
+  margin-inline: var(--gutter);
+  padding-block: 1.15rem 1.35rem;
+  border-top: 1px solid #f4ede054;
+  font-size: 0.875rem;
+}
+
+.site-footer a {
+  text-underline-offset: 0.25em;
+  text-decoration: underline;
+}
+
+.viewer {
+  width: min(56rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  padding: 0.8rem;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.viewer::backdrop {
+  background: #211913c9;
+}
+
+.viewer form {
+  margin-bottom: 0.65rem;
+  text-align: end;
+}
+
+.viewer-close {
+  padding: 0.38rem 0.75rem;
+  border: 1px solid #655344;
+  border-radius: 100vw;
+  background: transparent;
+  color: inherit;
+  font: 650 0.875rem / 1.2 "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.viewer-close span {
+  margin-inline-start: 0.35rem;
+  font-size: 1.1em;
+}
+
+.viewer-frame {
+  position: relative;
+  overflow: hidden;
+  height: min(65svh, 29rem, 72vw);
+  border-radius: 0.65rem;
+  background: #2c241f;
+}
+
+.viewer-photo {
+  height: 100%;
+  object-fit: contain;
+}
+
+.viewer[data-gallery="mirada"] .viewer-photo,
+.viewer[data-gallery="vellon"] .viewer-photo {
+  object-fit: cover;
+  position: absolute;
+  height: auto;
+  width: 230%;
+  max-width: none;
+}
+
+.viewer[data-gallery="mirada"] .viewer-photo {
+  left: -57%;
+  top: 55%;
+  translate: 0 -32%;
+}
+
+.viewer[data-gallery="vellon"] .viewer-photo {
+  left: -76%;
+  top: 44%;
+  translate: 0 -70%;
+}
+
+.viewer figcaption {
+  padding: 0.6rem 0 0.12rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 720px), (max-width: 960px) and (max-aspect-ratio: 1/1) {
+  .intro {
+    --portrait-height: max(36rem, 100svh);
+  }
+
+  .masthead {
+    padding-block: 1.1rem;
+  }
+
+  .camera {
+    inset-inline-start: 52%;
+  }
+
+  .portrait-light {
+    background:
+      linear-gradient(180deg, #eee3d5dc 0%, #eee3d5a6 6%, transparent 16%),
+      radial-gradient(ellipse 95% 27% at 18% 17%, #221914a1, transparent 100%),
+      linear-gradient(0deg, #e8ded0 0%, #e8ded0e8 7%, #e8ded078 23%, transparent 42%);
+  }
+
+  .wordmark {
+    inset: 13% var(--gutter) auto;
+    display: grid;
+    justify-content: start;
+    gap: 0;
+    color: var(--paper);
+    font-size: clamp(3.5rem, 15.2vw, 8rem);
+    line-height: 0.78;
+    text-shadow: 0 2px 1.3rem #21191387;
+  }
+
+  .wordmark span:last-child {
+    padding-inline-start: 0.47em;
+    background: none;
+    color: #f1ceac;
+  }
+
+  .wordmark span:first-child {
+    background: none;
+    color: inherit;
+  }
+
+  .portrait-overlap {
+    display: none;
+  }
+
+  .has-motion .wordmark span:first-child,
+  .has-motion .wordmark span:last-child {
+    transform: translateX(calc(-5vw * var(--progress)));
+  }
+
+  .greeting {
+    inset-block-end: var(--edge);
+    max-inline-size: 65%;
+  }
+
+  .greeting-title {
+    font-size: clamp(2.6rem, 9vw, 4.6rem);
+  }
+
+  .greeting p + p {
+    margin-top: 0.35rem;
+  }
+
+  .explore {
+    inset-block-end: calc(var(--edge) + 0.45rem);
+    inset-inline: auto calc(var(--gutter) + 0.35rem);
+    translate: none;
+    width: 5.05rem;
+  }
+
+  .scene-preview {
+    display: none;
+  }
+
+  .andes-content {
+    gap: max(10rem, 23svh);
+  }
+
+  .andes-heading h2 {
+    font-size: clamp(3.7rem, 14vw, 6.5rem);
+  }
+
+  .andes-heading p {
+    max-width: 18rem;
+  }
+
+  .andes-photo {
+    object-position: 65% center;
+  }
+
+  .card-label {
+    padding-inline: 0.45rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .card-plus {
+    display: none;
+  }
+}
+
+@media (max-width: 365px) {
+  .main-nav {
+    gap: 0.75rem;
+  }
+
+  .signature {
+    gap: 0.35rem;
+  }
+
+  .summits {
+    width: 1.65rem;
+  }
+
+  .greeting-title {
+    font-size: 2.25rem;
+  }
+
+  .explore {
+    width: 4.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    transition-duration: 0s !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .wordmark span:first-child, .wordmark span:last-child {
+    background: none;
+    color: CanvasText;
+  }
+
+  .portrait-overlap {
+    display: none;
+  }
+}
