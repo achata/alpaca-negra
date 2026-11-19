@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#e8ded0">
     <meta name="description" content="Alpaca Negra. Un retrato entre la luz y la niebla de los Andes.">
-    <title>Pallqay! Hi! — Alpaca Negra</title>
+    <title>Alpaca Negra — Un retrato en los Andes</title>
+    <link rel="icon" href="assets/logo-alpaca-negra.png" type="image/png" sizes="128x128">
     <link rel="preload" href="assets/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/alpaca-negra.css?v=recorrido">
-    <script src="assets/alpaca-negra.js?v=recorrido" defer></script>
+    <link rel="stylesheet" href="assets/alpaca-negra.css?v=mirada">
+    <script src="assets/alpaca-negra.js?v=mirada" defer></script>
   </head>
   <body>
     <main>
       <section class="intro" id="inicio" aria-labelledby="titulo">
         <div class="portrait">
           <div class="portrait-scene">
-            <img class="camera" src="assets/paso-andino.webp?v=marcha2" width="1280" height="720" fetchpriority="high" alt="Una alpaca de vellón negro camina de frente por un sendero andino.">
-            <video class="camera portrait-film" data-src="assets/pasos-y-mirada.mp4?v=marcha2" muted playsinline aria-hidden="true"></video>
+            <img class="camera" src="assets/paso-andino-violeta.webp" width="1280" height="720" fetchpriority="high" alt="Una alpaca de vellón negro e iris morado camina de frente por un sendero andino.">
+            <video class="camera portrait-film" data-src="assets/marcha-y-neuracx.mp4" muted playsinline aria-hidden="true"></video>
           </div>
           <div class="portrait-light" aria-hidden="true"></div>
 
           <header class="masthead">
             <a class="signature" href="#inicio" aria-label="Alpaca Negra, inicio">
-              <span class="summits" aria-hidden="true"></span>
+              <img class="signature-logo" src="assets/logo-alpaca-negra.png" width="128" height="128" alt="">
               <span>Alpaca<br>Negra</span>
             </a>
             <nav class="main-nav" aria-label="Navegación principal">
@@ -34,7 +35,7 @@
           <h1 class="wordmark" id="titulo"><span>Alpaca</span> <span>Negra</span></h1>
 
           <div class="portrait-scene portrait-overlap" aria-hidden="true">
-            <img class="camera" src="assets/paso-andino.webp?v=marcha2" width="1280" height="720" alt="">
+            <img class="camera" src="assets/paso-andino-violeta.webp" width="1280" height="720" alt="">
             <div class="portrait-light"></div>
           </div>
 
@@ -48,10 +49,11 @@
             <span class="explore-rule" aria-hidden="true"></span>
           </a>
 
-          <a class="next-scene" href="#andes">
+          <a class="next-scene" href="#andes" aria-describedby="cierre-mirada">
             <span>Los Andes</span>
             <span aria-hidden="true">↓</span>
           </a>
+          <span class="visually-hidden" id="cierre-mirada">En el iris se refleja NeuracX, una esfera violeta sonriente.</span>
 
           <a class="scene-preview" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje" aria-label="Ampliar el paisaje andino">
             <span class="preview-frame preview-texture" aria-hidden="true"></span>

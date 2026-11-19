@@ -52,6 +52,15 @@ img {
   width: 100%;
 }
 
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .intro {
   position: relative;
   --portrait-height: max(37rem, 100svh);
@@ -59,7 +68,7 @@ img {
 
 .walk-end {
   position: absolute;
-  bottom: calc(var(--portrait-height) + 0.10 * var(--walk-distance, 0px));
+  top: calc(0.87 * var(--walk-distance, 0px));
   height: 1px;
 }
 
@@ -172,12 +181,9 @@ img {
   text-transform: uppercase;
 }
 
-.summits {
-  display: block;
-  width: 2.2rem;
-  height: 1.65rem;
-  background: currentColor;
-  clip-path: polygon(0 94%, 35% 33%, 47% 54%, 73% 7%, 100% 94%, 69% 94%, 70% 85%, 88% 85%, 72% 30%, 48% 73%, 35% 52%, 14% 85%, 48% 85%, 52% 94%);
+.signature-logo {
+  width: 2.55rem;
+  height: 2.55rem;
 }
 
 .main-nav {
@@ -306,6 +312,10 @@ img {
   scale: 1.08;
 }
 
+.portrait.is-playing.hide-intro .explore {
+  visibility: hidden;
+}
+
 .explore-rule {
   width: 1.05rem;
   height: 1px;
@@ -357,7 +367,7 @@ img {
   z-index: 1;
   translate: 15% -25%;
   border-radius: 49% 49% 0.45rem 0.45rem / 29% 29% 0.45rem 0.45rem;
-  background: url("retrato-andino.webp?v=marcha2") 38% 59% / 340% auto;
+  background: url("detalle-de-la-mirada.webp") center / cover;
 }
 
 .preview-mountains {
@@ -727,8 +737,9 @@ img {
     gap: 0.35rem;
   }
 
-  .summits {
-    width: 1.65rem;
+  .signature-logo {
+    width: 2rem;
+    height: 2rem;
   }
 
   .greeting-title {

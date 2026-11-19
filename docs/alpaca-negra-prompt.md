@@ -39,7 +39,17 @@ La referencia de identidad es el retrato original `assets/alpaca-negra.png`. Par
 
 Se interpolaron las fases por flujo óptico y se compuso el animal sobre el sendero fijo. Cada ciclo combina el cambio de apoyo con el balanceo del pecho y de la cabeza. Los planos de detalle se registraron sobre el mismo ojo para seguirlo hasta el final.
 
-El [video](../assets/pasos-y-mirada.mp4) contiene 390 fotogramas a 60 fps en 1280 × 720. La [portada](../assets/paso-andino.webp) corresponde al primer fotograma. El desplazamiento controla la posición del video y la separación del título.
+El video de origen contiene 390 fotogramas a 60 fps en 1280 × 720. El render del sitio reutiliza todos esos fotogramas y añade 110 para desarrollar el cierre. Se codifica a 48 fps para dar más tiempo al paso y al acercamiento. Su duración total es de 10,42 segundos y su primer fotograma es la portada. [Video de origen](../assets/pasos-y-mirada.mp4) · [Render del sitio](../assets/marcha-y-neuracx.mp4) · [Portada](../assets/paso-andino-violeta.webp)
+
+El script de composición sigue el iris en el plano frontal y le da color desde el primer fotograma mediante una máscara que conserva la pupila y los brillos. En el macro, la foto original de NeuracX, tomada de `neuracx/branding/reference/neurac_foto2.png`, entra como reflejo. La refracción se suaviza y los destellos violetas recorren el iris mientras la figura se define en el centro. **Ver marcha** reproduce el video de forma continua a 1× y sincroniza la posición de la página con la reproducción. El desplazamiento manual sigue dando acceso a los fotogramas en ambos sentidos. [Script de composición](../skills/replicar-alpaca-negra/scripts/render-mirada.mjs) · [Foto original](../skills/replicar-alpaca-negra/assets/neuracx.png)
+
+## Logo de Alpaca Negra
+
+Se generó con ImageGen integrado y se exportó como PNG transparente de 128 × 128 para la cabecera y la pestaña del navegador. [Logo de Alpaca Negra](../assets/logo-alpaca-negra.png)
+
+```text
+Use case: logo-brand. Asset: original square favicon and website title logo for Alpaca Negra. Create a single bold, flat symbol of a black alpaca head in three-quarter view. Two unmistakable upright alpaca ears, cream facial markings, one tiny iris in muted purple, and a simple Andean ridge cut out along the bottom of the neck. Set it inside one solid very dark warm charcoal circle with a thin pale warm cream outline against actual transparency. The silhouette and all shapes must stay readable at 16x16. Editorial wildlife identity, warm ivory (#f4ede0), warm charcoal (#221b19), and one lavender accent, clean solid edges, generous optical balance. Center the circle, it should occupy about 88% of the square. No other objects, no text, no letters, no gradients, no shadows, no mockups.
+```
 
 ## La marcha de perfil
 

@@ -2,15 +2,20 @@ const intro = document.querySelector(".intro");
 const portrait = document.querySelector(".portrait");
 const portraitFilm = document.querySelector(".portrait-film");
 const explore = document.querySelector(".explore");
+const walkEnd = document.querySelector("#mirada");
+const nextScene = document.querySelector(".next-scene");
 const andes = document.querySelector(".andes");
 const andesStage = document.querySelector(".andes-stage");
 const andesFilm = document.querySelector(".andes-film");
 const galleryItems = document.querySelectorAll(".gallery li");
 const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
-const portraitEnd = 0.87;
+const portraitFps = 48;
 let scrollFrame = 0;
 let portraitProgress = -1;
 let andesProgress = -1;
+let walkPlaying = false;
+let playbackScroll = 0;
+let focusNextScene = false;
 
 function fraction(value, start, end) {
   return Math.min(1, Math.max(0, (value - start) / (end - start)));
@@ -29,7 +34,7 @@ function scrubFilm(film, progress, fps) {
 
   const last = Math.round(film.duration * fps) - 1;
   const frame = Math.round(progress * last);
-  if (Math.floor(film.currentTime * fps) !== frame) {
+  if (Math.min(last, Math.floor(film.currentTime * fps)) !== frame) {
     // Seek inside the frame to avoid landing on a boundary rounded by the decoder.
     film.currentTime = (frame + 0.25) / fps;
   }
@@ -44,7 +49,7 @@ function showPortrait(progress) {
   portrait.classList.toggle("has-frame", progress > 0);
   portrait.classList.toggle("hide-intro", progress >= 0.30);
   portrait.classList.toggle("is-near", progress > 0.47);
-  portrait.classList.toggle("is-close", progress > 0.84);
+  portrait.classList.toggle("is-close", progress > 0.91);
   portrait.style.setProperty("--title-push", fraction(progress, 0.015, 0.67));
   portrait.style.setProperty("--title-opacity", 1 - fraction(progress, 0.42, 0.77));
   portrait.style.setProperty("--intro-opacity", 1 - fraction(progress, 0.06, 0.30));
@@ -58,13 +63,34 @@ function updatePortrait() {
     return;
   }
 
+  const distance = walkEnd.offsetTop;
   if (!portraitFilm.seeking && portraitFilm.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-    const lastFrameTime = portraitFilm.duration - 1 / 60;
-    showPortrait(fraction(portraitFilm.currentTime, 0, lastFrameTime));
+    const lastFrameTime = portraitFilm.duration - 1 / portraitFps;
+    const progress = fraction(portraitFilm.currentTime, 0, lastFrameTime);
+    showPortrait(progress);
+
+    if (walkPlaying) {
+      playbackScroll = Math.round(window.scrollY + bounds.top + distance * progress);
+      if (Math.abs(window.scrollY - playbackScroll) >= 1) {
+        window.scrollTo({ top: playbackScroll, behavior: "instant" });
+      }
+    }
   }
 
-  const distance = bounds.height - portrait.offsetHeight;
-  scrubFilm(portraitFilm, fraction(-bounds.top, 0, distance * portraitEnd), 60);
+  if (!walkPlaying) {
+    scrubFilm(portraitFilm, fraction(-bounds.top, 0, distance), portraitFps);
+  }
+}
+
+function stopWalk() {
+  if (!walkPlaying) {
+    return;
+  }
+
+  walkPlaying = false;
+  portraitFilm.pause();
+  portrait.classList.remove("is-playing");
+  requestScrollUpdate();
 }
 
 function updateAndes() {
@@ -106,6 +132,9 @@ function requestScrollUpdate() {
       scrollFrame = 0;
       updatePortrait();
       updateAndes();
+      if (walkPlaying) {
+        requestScrollUpdate();
+      }
     });
   }
 }
@@ -122,6 +151,7 @@ function configureMotion() {
   if (animatePortrait) {
     loadFilm(portraitFilm);
   } else {
+    stopWalk();
     showPortrait(0);
   }
 
@@ -141,7 +171,61 @@ for (const film of [portraitFilm, andesFilm]) {
   film.addEventListener("error", configureMotion);
 }
 
-window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+explore.addEventListener("click", (event) => {
+  if (!intro.classList.contains("has-motion") || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    return;
+  }
+
+  event.preventDefault();
+  if (walkPlaying) {
+    return;
+  }
+
+  walkPlaying = true;
+  playbackScroll = window.scrollY;
+  focusNextScene = event.detail === 0;
+  portrait.classList.add("is-playing");
+  portraitFilm.play().catch((error) => {
+    if (walkPlaying && error.name !== "AbortError") {
+      stopWalk();
+      window.location.hash = "andes";
+    }
+  });
+  requestScrollUpdate();
+});
+
+portraitFilm.addEventListener("ended", () => {
+  if (walkPlaying) {
+    updatePortrait();
+    stopWalk();
+    if (window.location.hash !== "#mirada") {
+      window.history.pushState(null, "", "#mirada");
+    }
+    if (focusNextScene) {
+      nextScene.focus({ preventScroll: true });
+    }
+  }
+});
+
+portrait.addEventListener("click", (event) => {
+  const link = event.target.closest("a");
+  if (link && link !== explore) {
+    stopWalk();
+  }
+});
+window.addEventListener("wheel", stopWalk, { passive: true });
+window.addEventListener("touchmove", stopWalk, { passive: true });
+window.addEventListener("keydown", (event) => {
+  if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+    stopWalk();
+  }
+});
+window.addEventListener("scroll", () => {
+  if (walkPlaying && Math.abs(window.scrollY - playbackScroll) > 2) {
+    stopWalk();
+  }
+  requestScrollUpdate();
+}, { passive: true });
 window.addEventListener("resize", requestScrollUpdate);
 motion.addEventListener("change", configureMotion);
 configureMotion();
