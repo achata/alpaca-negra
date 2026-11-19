@@ -40,3 +40,14 @@ La referencia de identidad es el retrato original `assets/alpaca-negra.png`. Par
 Se interpolaron las fases por flujo óptico y se compuso el animal sobre el sendero fijo. Cada ciclo combina el cambio de apoyo con el balanceo del pecho y de la cabeza. Los planos de detalle se registraron sobre el mismo ojo para seguirlo hasta el final.
 
 El [video](../assets/pasos-y-mirada.mp4) contiene 390 fotogramas a 60 fps en 1280 × 720. La [portada](../assets/paso-andino.webp) corresponde al primer fotograma. El desplazamiento controla la posición del video y la separación del título.
+
+## La marcha de perfil
+
+La referencia de ritmo fue el [MP4 añadido al repositorio](../instagram_DaQLsDwloME.mp4). La marcha frontal termina en el iris y el segundo plano muestra a la alpaca atravesando la ladera mientras aparecen las tres tarjetas. La animación responde al desplazamiento en ambas direcciones.
+
+Con la herramienta integrada ImageGen se generaron las poses y se limpió el fondo a partir de la foto de [Amanecer en los Andes](../assets/amanecer-en-los-andes.webp):
+
+- **Poses:** «Generate eight poses of the same jet-black alpaca in strict side profile, facing right, walking naturally on a gently rising Andean trail. Use a transparent four-column, two-row sheet. Show the full animal and all four hooves in every cell. Match the reference's curly black fleece and warm rim light. Keep the camera, subject scale and hoof level consistent, and alternate contact, support, lift and extension in a looping walk. Only the eight silhouettes, without shadows, grids or text.»
+- **Fondo:** «Remove only the small black alpaca from the grassy ridge at about 66% width, 64% height. Inpaint its silhouette with the matching fog, distant mountain and native grass immediately around it, continuing the existing slope naturally. Preserve the terrain profile, rocks, sunlight, upper sky, peaks, composition, muted amber coloring and realistic photographic textures.»
+
+Se compusieron las poses sobre la ladera con FFmpeg. El [video de perfil](../assets/marcha-en-los-andes.mp4) dura 5,6 segundos, tiene un tamaño de 1280 × 720 y se muestrea a 30 fps. La foto original permanece disponible como fondo estático y en la galería.

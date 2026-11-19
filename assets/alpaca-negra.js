@@ -1,29 +1,47 @@
 const intro = document.querySelector(".intro");
 const portrait = document.querySelector(".portrait");
-const film = document.querySelector(".portrait-film");
+const portraitFilm = document.querySelector(".portrait-film");
 const explore = document.querySelector(".explore");
+const andes = document.querySelector(".andes");
+const andesStage = document.querySelector(".andes-stage");
+const andesFilm = document.querySelector(".andes-film");
+const galleryItems = document.querySelectorAll(".gallery li");
 const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
-const framesPerSecond = 60;
+const portraitEnd = 0.87;
 let scrollFrame = 0;
-let displayedFrame = -1;
-let playPending = false;
-let seekOnly = false;
+let portraitProgress = -1;
+let andesProgress = -1;
 
 function fraction(value, start, end) {
   return Math.min(1, Math.max(0, (value - start) / (end - start)));
 }
 
-function lastFilmFrame() {
-  return Math.max(1, Math.round((film.duration || 0) * framesPerSecond) - 1);
+function loadFilm(film) {
+  if (!film.hasAttribute("src")) {
+    film.src = film.dataset.src;
+  }
 }
 
-function showPortrait(frame) {
-  if (displayedFrame === frame) {
+function scrubFilm(film, progress, fps) {
+  if (film.error || film.readyState < HTMLMediaElement.HAVE_METADATA || film.seeking || !Number.isFinite(film.duration)) {
     return;
   }
-  displayedFrame = frame;
-  const progress = frame / lastFilmFrame();
-  portrait.classList.toggle("has-frame", frame > 0);
+
+  const last = Math.round(film.duration * fps) - 1;
+  const frame = Math.round(progress * last);
+  if (Math.floor(film.currentTime * fps) !== frame) {
+    // Seek inside the frame to avoid landing on a boundary rounded by the decoder.
+    film.currentTime = (frame + 0.25) / fps;
+  }
+}
+
+function showPortrait(progress) {
+  if (portraitProgress === progress) {
+    return;
+  }
+
+  portraitProgress = progress;
+  portrait.classList.toggle("has-frame", progress > 0);
   portrait.classList.toggle("hide-intro", progress >= 0.30);
   portrait.classList.toggle("is-near", progress > 0.47);
   portrait.classList.toggle("is-close", progress > 0.84);
@@ -35,93 +53,97 @@ function showPortrait(frame) {
 }
 
 function updatePortrait() {
-  scrollFrame = 0;
-  if (document.hidden || !intro.classList.contains("has-motion") || film.readyState < HTMLMediaElement.HAVE_CURRENT_DATA || film.seeking) {
-    return;
-  }
-
-  const last = lastFilmFrame();
-  const distance = intro.offsetHeight - portrait.offsetHeight;
   const bounds = intro.getBoundingClientRect();
-  const target = Math.round(fraction(-bounds.top, 0, distance * 0.91) * last);
-  const current = Math.min(last, Math.floor(film.currentTime * framesPerSecond));
-  const difference = target - current;
-  showPortrait(current);
-
-  if (difference === 0) {
-    film.pause();
+  if (!intro.classList.contains("has-motion") || bounds.bottom <= 0) {
     return;
   }
 
-  // Forward playback lets the decoder present each footfall between wheel events.
-  if (difference > 0 && !seekOnly && bounds.bottom > 0) {
-    const maxRate = location.hash === "#mirada" && target === last ? 1 : 1.35;
-    const rate = Math.min(maxRate, Math.max(0.65, difference / 18));
-    if (film.playbackRate !== rate) {
-      film.playbackRate = rate;
-    }
-    if (film.paused && !playPending) {
-      playPending = true;
-      film.play().catch(error => {
-        if (error.name !== "AbortError") {
-          seekOnly = true;
-        }
-      }).finally(() => {
-        playPending = false;
-        requestPortraitUpdate();
-      });
-    }
-    requestPortraitUpdate();
-    return;
+  if (!portraitFilm.seeking && portraitFilm.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+    const lastFrameTime = portraitFilm.duration - 1 / 60;
+    showPortrait(fraction(portraitFilm.currentTime, 0, lastFrameTime));
   }
 
-  film.pause();
-  const step = Math.max(1, Math.ceil(Math.abs(difference) * 0.28));
-  const next = bounds.bottom <= 0 ? target : current + Math.sign(difference) * step;
-  film.currentTime = (next + 0.25) / framesPerSecond;
+  const distance = bounds.height - portrait.offsetHeight;
+  scrubFilm(portraitFilm, fraction(-bounds.top, 0, distance * portraitEnd), 60);
 }
 
-function requestPortraitUpdate() {
+function updateAndes() {
+  if (!andes.classList.contains("has-motion")) {
+    return;
+  }
+
+  const bounds = andes.getBoundingClientRect();
+  if (bounds.top < window.innerHeight + 420 && !andesFilm.error) {
+    loadFilm(andesFilm);
+  }
+
+  const distance = bounds.height - andesStage.offsetHeight;
+  const progress = distance > 0 ? fraction(-bounds.top, 0, distance) : 1;
+  if (andesProgress !== progress) {
+    andesProgress = progress;
+    galleryItems.forEach((item, index) => {
+      const start = 0.24 + index * 0.1;
+      const reveal = fraction(progress, start, start + 0.3);
+      item.style.setProperty("--card-reveal", reveal);
+      item.style.setProperty("--card-pointer", reveal >= 0.6 ? "auto" : "none");
+    });
+  }
+
+  if (!andesFilm.seeking) {
+    const hasFrame = andesFilm.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+    andes.classList.toggle("has-frame", hasFrame);
+    if (hasFrame) {
+      andes.style.setProperty("--crossing", fraction(andesFilm.currentTime, 0, andesFilm.duration - 1 / 30));
+    }
+  }
+
+  scrubFilm(andesFilm, fraction(progress, 0, 0.94), 30);
+}
+
+function requestScrollUpdate() {
   if (!scrollFrame) {
-    scrollFrame = requestAnimationFrame(updatePortrait);
+    scrollFrame = requestAnimationFrame(() => {
+      scrollFrame = 0;
+      updatePortrait();
+      updateAndes();
+    });
   }
 }
 
 function configureMotion() {
-  const enabled = motion.matches && !film.error && Boolean(film.canPlayType("video/mp4"));
-  intro.classList.toggle("has-motion", enabled);
-  explore.hash = enabled ? "mirada" : "andes";
-  explore.firstElementChild.textContent = enabled ? "Ver marcha" : "Explorar";
+  const canAnimate = (film) => motion.matches && !film.error
+    && Boolean(film.canPlayType('video/mp4; codecs="avc1.640028"'));
+  const animatePortrait = canAnimate(portraitFilm);
+  intro.classList.toggle("has-motion", animatePortrait);
+  andes.classList.toggle("has-motion", canAnimate(andesFilm));
+  explore.hash = animatePortrait ? "mirada" : "andes";
+  explore.firstElementChild.textContent = animatePortrait ? "Ver marcha" : "Ver los Andes";
 
-  if (enabled) {
-    if (!film.hasAttribute("src")) {
-      film.preload = "auto";
-      film.src = film.dataset.src;
-    }
-    window.addEventListener("scroll", requestPortraitUpdate, { passive: true });
-    window.addEventListener("resize", requestPortraitUpdate);
+  if (animatePortrait) {
+    loadFilm(portraitFilm);
   } else {
-    film.pause();
-    window.removeEventListener("scroll", requestPortraitUpdate);
-    window.removeEventListener("resize", requestPortraitUpdate);
     showPortrait(0);
   }
 
-  requestPortraitUpdate();
+  if (!andes.classList.contains("has-motion")) {
+    andes.classList.remove("has-frame");
+  }
+
+  requestScrollUpdate();
 }
 
+for (const film of [portraitFilm, andesFilm]) {
+  film.preload = "auto";
+  film.addEventListener("loadedmetadata", requestScrollUpdate);
+  film.addEventListener("loadeddata", requestScrollUpdate);
+  film.addEventListener("canplay", requestScrollUpdate);
+  film.addEventListener("seeked", requestScrollUpdate);
+  film.addEventListener("error", configureMotion);
+}
+
+window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+window.addEventListener("resize", requestScrollUpdate);
 motion.addEventListener("change", configureMotion);
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    film.pause();
-  } else {
-    requestPortraitUpdate();
-  }
-});
-film.addEventListener("loadeddata", requestPortraitUpdate);
-film.addEventListener("error", configureMotion);
-film.addEventListener("seeked", requestPortraitUpdate);
-film.addEventListener("canplay", requestPortraitUpdate);
 configureMotion();
 
 const viewer = document.querySelector("#visor");

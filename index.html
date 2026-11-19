@@ -7,8 +7,8 @@
     <meta name="description" content="Alpaca Negra. Un retrato entre la luz y la niebla de los Andes.">
     <title>Pallqay! Hi! — Alpaca Negra</title>
     <link rel="preload" href="assets/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/alpaca-negra.css?v=marcha2">
-    <script src="assets/alpaca-negra.js?v=marcha2" defer></script>
+    <link rel="stylesheet" href="assets/alpaca-negra.css?v=recorrido">
+    <script src="assets/alpaca-negra.js?v=recorrido" defer></script>
   </head>
   <body>
     <main>
@@ -44,8 +44,13 @@
           </div>
 
           <a class="explore" href="#andes">
-            <span>Explorar</span>
+            <span>Ver los Andes</span>
             <span class="explore-rule" aria-hidden="true"></span>
+          </a>
+
+          <a class="next-scene" href="#andes">
+            <span>Los Andes</span>
+            <span aria-hidden="true">↓</span>
           </a>
 
           <a class="scene-preview" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje" aria-label="Ampliar el paisaje andino">
@@ -58,39 +63,46 @@
       </section>
 
       <section class="andes" id="andes" aria-labelledby="titulo-andes">
-        <img class="andes-photo" src="assets/amanecer-en-los-andes.webp" width="1672" height="941" loading="lazy" alt="La alpaca negra camina sobre una ladera frente a las montañas cubiertas de niebla.">
+        <div class="andes-stage">
+          <div class="andes-view">
+            <img class="camera andes-photo" src="assets/amanecer-en-los-andes.webp" width="1672" height="941" loading="lazy" alt="La alpaca negra camina sobre una ladera frente a las montañas cubiertas de niebla.">
+            <video class="camera andes-film" data-src="assets/marcha-en-los-andes.mp4" muted playsinline aria-hidden="true"></video>
+          </div>
+          <div class="andes-content">
+            <div class="andes-heading">
+              <h2 id="titulo-andes">Entre la luz<br>y la niebla.</h2>
+              <p>El amanecer dibuja el contorno de la alpaca mientras la niebla recorre la cordillera.</p>
+            </div>
 
-        <div class="andes-content">
-          <div class="andes-heading">
-            <h2 id="titulo-andes">Entre la luz<br>y la niebla.</h2>
-            <p>El amanecer dibuja el contorno de la alpaca mientras la niebla recorre la cordillera.</p>
+            <ul class="gallery" aria-label="Detalles del retrato andino">
+              <li>
+                <a class="gallery-card" href="assets/iris-electrico.webp" data-gallery="mirada">
+                  <span class="card-image card-eyes" aria-hidden="true"></span>
+                  <span class="card-label">La mirada</span>
+                  <span class="card-plus" aria-hidden="true">+</span>
+                </a>
+              </li>
+              <li>
+                <a class="gallery-card" href="assets/retrato-andino.webp?v=marcha2" data-gallery="vellon">
+                  <span class="card-image card-fleece" aria-hidden="true"></span>
+                  <span class="card-label">El vellón</span>
+                  <span class="card-plus" aria-hidden="true">+</span>
+                </a>
+              </li>
+              <li>
+                <a class="gallery-card" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje">
+                  <span class="card-image card-mountains" aria-hidden="true"></span>
+                  <span class="card-label">La cordillera</span>
+                  <span class="card-plus" aria-hidden="true">+</span>
+                </a>
+              </li>
+            </ul>
           </div>
 
-          <ul class="gallery" aria-label="Detalles del retrato andino">
-            <li>
-              <a class="gallery-card" href="assets/iris-electrico.webp" data-gallery="mirada">
-                <span class="card-image card-eyes" aria-hidden="true"></span>
-                <span class="card-label">La mirada <span class="card-plus" aria-hidden="true">+</span></span>
-              </a>
-            </li>
-            <li>
-              <a class="gallery-card" href="assets/retrato-andino.webp?v=marcha2" data-gallery="vellon">
-                <span class="card-image card-fleece" aria-hidden="true"></span>
-                <span class="card-label">El vellón <span class="card-plus" aria-hidden="true">+</span></span>
-              </a>
-            </li>
-            <li>
-              <a class="gallery-card" href="assets/amanecer-en-los-andes.webp" data-gallery="paisaje">
-                <span class="card-image card-mountains" aria-hidden="true"></span>
-                <span class="card-label">La cordillera <span class="card-plus" aria-hidden="true">+</span></span>
-              </a>
-            </li>
-          </ul>
+          <footer class="site-footer">
+            <a href="#inicio">Volver al retrato <span aria-hidden="true">↑</span></a>
+          </footer>
         </div>
-
-        <footer class="site-footer">
-          <a href="#inicio">Volver al retrato</a>
-        </footer>
       </section>
     </main>
 

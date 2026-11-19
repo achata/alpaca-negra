@@ -59,12 +59,8 @@ img {
 
 .walk-end {
   position: absolute;
-  bottom: 0;
+  bottom: calc(var(--portrait-height) + 0.10 * var(--walk-distance, 0px));
   height: 1px;
-}
-
-.intro.has-motion + .andes:not(:target) {
-  display: none;
 }
 
 .portrait {
@@ -82,7 +78,8 @@ img {
 
 .intro.has-motion {
   --portrait-height: 100svh;
-  min-block-size: calc(var(--portrait-height) + clamp(56rem, 185svh, 118rem));
+  --walk-distance: clamp(46rem, 155svh, 108rem);
+  min-block-size: calc(var(--portrait-height) + var(--walk-distance));
 }
 
 .has-motion .portrait {
@@ -105,12 +102,12 @@ img {
   object-position: center;
 }
 
-.portrait-film {
+.portrait-film, .andes-film {
   display: block;
   opacity: 0;
 }
 
-.portrait.has-frame .portrait-film {
+.portrait.has-frame .portrait-film, .andes.has-frame .andes-film {
   opacity: 1;
 }
 
@@ -286,6 +283,8 @@ img {
   color: var(--ink);
   font-size: 0.875rem;
   font-weight: 650;
+  padding: 0.35rem;
+  text-align: center;
   transition: color 220ms ease, background-color 220ms ease;
 }
 
@@ -311,6 +310,29 @@ img {
   width: 1.05rem;
   height: 1px;
   background: currentColor;
+}
+
+.next-scene {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: var(--edge);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  visibility: hidden;
+  padding: 0.68rem 1rem;
+  border: 1px solid #f4ede085;
+  border-radius: 100vw;
+  background: #231b16e6;
+  color: var(--paper);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.portrait.is-close .next-scene {
+  visibility: visible;
 }
 
 .scene-preview {
@@ -368,34 +390,51 @@ img {
 
 .andes {
   position: relative;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-block-size: 100svh;
-  overflow: clip;
   background: #342a23;
   color: var(--paper);
 }
 
-.andes-photo, .andes::after {
+.andes-stage {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svh;
+  overflow: clip;
+}
+
+.andes.has-motion {
+  min-block-size: calc(100svh + clamp(30rem, 105svh, 65rem));
+}
+
+.andes.has-motion .andes-stage {
+  position: sticky;
+  inset-block-start: 0;
+}
+
+.andes-view, .andes-view::after {
   position: absolute;
-  z-index: -1;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  pointer-events: none;
+}
+
+.andes-view {
+  z-index: -1;
+}
+
+.andes-view::after {
+  content: "";
+  background:
+    linear-gradient(90deg, #2319137a, transparent 68%),
+    linear-gradient(0deg, #211914ed 0%, transparent 49%, #2c21174d);
+}
+
+.andes-film {
+  object-position: calc(30% + var(--crossing, 0) * 58%) center;
 }
 
 .andes-photo {
-  object-fit: cover;
-  object-position: 61% center;
-}
-
-.andes::after {
-  content: "";
-  background:
-    linear-gradient(90deg, #23191391, transparent 71%),
-    linear-gradient(0deg, #211914e6 0%, transparent 52%, #2c21176a);
+  object-position: 65% center;
 }
 
 .andes-content {
@@ -403,19 +442,19 @@ img {
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  gap: clamp(6rem, 18vh, 14rem);
-  padding: clamp(4rem, 10vh, 8rem) var(--gutter) 2rem;
+  gap: clamp(8rem, 24svh, 16rem);
+  padding: clamp(2rem, 6svh, 5rem) var(--gutter) clamp(1rem, 3svh, 2rem);
 }
 
 .andes-heading h2 {
-  font: 400 clamp(4.2rem, 10.5vw, 12.5rem) / 0.86 var(--display);
+  font: 400 clamp(3.6rem, min(9.3vw, 13svh), 9rem) / 0.86 var(--display);
   font-variation-settings: "opsz" 62;
   letter-spacing: -0.07em;
 }
 
 .andes-heading p {
   max-width: 24rem;
-  margin-top: clamp(1.5rem, 2.6vw, 2.5rem);
+  margin-top: 1.5rem;
   font-weight: 500;
   line-height: 1.5;
 }
@@ -424,32 +463,40 @@ img {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(0.5rem, 1.25vw, 1.1rem);
-  width: min(100%, 35rem);
-  margin: 0;
+  width: min(100%, 34rem);
+  margin: 0 auto;
   padding: 0;
   list-style: none;
 }
 
+.andes.has-motion .gallery:not(:focus-within) li {
+  opacity: var(--card-reveal, 1);
+  translate: 0 calc((1 - var(--card-reveal, 1)) * 1.6rem);
+  pointer-events: var(--card-pointer, auto);
+}
+
 .gallery-card {
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
-  overflow: hidden;
   border: 1px solid #efe7db;
   border-radius: 0.8rem 2rem 0.8rem 0.8rem;
   background: var(--paper);
   color: var(--ink);
+  box-shadow: 0 0.5rem 1.7rem #22191445;
 }
 
 .card-image {
   display: block;
-  min-block-size: clamp(4rem, 13vw, 9rem);
+  min-block-size: clamp(4rem, min(13vw, 17svh), 8rem);
+  border-radius: 0.75rem 1.95rem 0 0;
   background-repeat: no-repeat;
-  transition: scale 250ms ease;
+  transition: filter 250ms ease;
 }
 
 .gallery-card:hover .card-image {
-  scale: 1.06;
+  filter: brightness(1.14);
 }
 
 .card-eyes {
@@ -471,27 +518,34 @@ img {
 }
 
 .card-label {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.2rem;
-  min-block-size: 2.8rem;
-  padding: 0.6rem 0.7rem;
-  background: var(--paper);
+  padding: 0.7rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 650;
   line-height: 1.2;
 }
 
 .card-plus {
-  font-size: 1rem;
-  font-weight: 400;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  inset: 0.4rem 0.4rem auto auto;
+  width: 1.8rem;
+  aspect-ratio: 1;
+  border: 1px solid #241c1755;
+  border-radius: 50%;
+  background: var(--paper);
+  line-height: 1;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.gallery-card:hover .card-plus {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .site-footer {
   margin-inline: var(--gutter);
-  padding-block: 1.15rem 1.35rem;
+  padding-block: 0.8rem 1rem;
   border-top: 1px solid #f4ede054;
   font-size: 0.875rem;
 }
@@ -638,7 +692,7 @@ img {
   }
 
   .andes-content {
-    gap: max(10rem, 23svh);
+    gap: clamp(8rem, 25svh, 13rem);
   }
 
   .andes-heading h2 {
@@ -649,8 +703,8 @@ img {
     max-width: 18rem;
   }
 
-  .andes-photo {
-    object-position: 65% center;
+  .andes-film {
+    object-position: calc(20% + var(--crossing, 0) * 78%) center;
   }
 
   .card-label {
